@@ -147,70 +147,77 @@ public class Main {
     private static void edit(Scanner in, List<Doctor> listDoctor) {
         System.out.println("Input ID of Doctor: ");
         int id = Integer.parseInt(in.nextLine());
-        for (Doctor doctor : listDoctor) {
-            if (id == doctor.getId()) {
-                String name = null;
-                while (true) {
-                    System.out.print("Edit name(not longer than 50 characters): ");
-                    name = in.nextLine();
-                    if (name.length() <= 50) {
-                        break;
+        boolean found = false;
+        while (found != true) {
+            for (Doctor doctor : listDoctor) {
+                if (id == doctor.getId()) {
+                    String name = null;
+                    while (true) {
+                        System.out.print("Edit name(not longer than 50 characters): ");
+                        name = in.nextLine();
+                        if (name.length() <= 50) {
+                            break;
+                        }
                     }
-                }
-                String dob = null;
-                Pattern pat;
-                Matcher matcher;
-                while (true) {
-                    System.out.print("Edit date of birth(dd/MM/yyyy): ");
-                    dob = in.nextLine();
-                    pat = Pattern.compile(PATTERN_YEAR);
-                    matcher = pat.matcher(dob);
-                    if (matcher.find()) {
-                        break;
-                    } else {
-                        System.out.println("Incorrect date format or invalid. Please reenter.");
+                    String dob = null;
+                    Pattern pat;
+                    Matcher matcher;
+                    while (true) {
+                        System.out.print("Edit date of birth(dd/MM/yyyy): ");
+                        dob = in.nextLine();
+                        pat = Pattern.compile(PATTERN_YEAR);
+                        matcher = pat.matcher(dob);
+                        if (matcher.find()) {
+                            break;
+                        } else {
+                            System.out.println("Incorrect date format or invalid. Please reenter.");
+                        }
                     }
-                }
-                String specialization = null;
-                while (true) {
-                    System.out.print("Edit specialization(not longer than 255 characters): ");
-                    specialization = in.nextLine();
-                    if (specialization.length() <= 255) {
-                        break;
+                    String specialization = null;
+                    while (true) {
+                        System.out.print("Edit specialization(not longer than 255 characters): ");
+                        specialization = in.nextLine();
+                        if (specialization.length() <= 255) {
+                            break;
+                        }
                     }
-                }
-                System.out.print("Edit availability: ");
-                int availability = checkNumber(in);
-                String email = null;
-                while (true) {
-                    System.out.print("Edit email: ");
-                    email = in.nextLine();
-                    pat = Pattern.compile(PATTERN_MAIL);
-                    matcher = pat.matcher(email);
-                    if (matcher.find()) {
-                        break;
-                    } else {
-                        System.out.println("Incorrect email address format. Please reenter.");
+                    System.out.print("Edit availability: ");
+                    int availability = checkNumber(in);
+                    String email = null;
+                    while (true) {
+                        System.out.print("Edit email: ");
+                        email = in.nextLine();
+                        pat = Pattern.compile(PATTERN_MAIL);
+                        matcher = pat.matcher(email);
+                        if (matcher.find()) {
+                            break;
+                        } else {
+                            System.out.println("Incorrect email address format. Please reenter.");
+                        }
                     }
-                }
-                String mobile = null;
-                while (true) {
-                    System.out.print("Edit mobile(###)-###-####: ");
-                    mobile = in.nextLine();
-                    pat = Pattern.compile(PATTERN_PHONE);
-                    matcher = pat.matcher(mobile);
-                    if (matcher.find()) {
-                        break;
-                    } else {
-                        System.out.println("Incorrect mobile format. Please reenter.");
+                    String mobile = null;
+                    while (true) {
+                        System.out.print("Edit mobile(###)-###-####: ");
+                        mobile = in.nextLine();
+                        pat = Pattern.compile(PATTERN_PHONE);
+                        matcher = pat.matcher(mobile);
+                        if (matcher.find()) {
+                            break;
+                        } else {
+                            System.out.println("Incorrect mobile format. Please reenter.");
+                        }
                     }
+                    doctor.setName(name);
+                    doctor.setDob(dob);
+                    doctor.setSpecialization(specialization);
+                    doctor.setAvailability(availability);
+                    doctor.setEmail(email);
+                    doctor.setMobile(mobile);
+                    found = true;
                 }
-                doctor.setName(name);
-                doctor.setDob(dob);
-                doctor.setSpecialization(specialization);
-                doctor.setAvailability(availability);
-                doctor.setEmail(email);
-                doctor.setMobile(mobile);
+            }
+            if (found != true) {
+                System.out.println("Not found.");
                 break;
             }
         }
@@ -220,9 +227,16 @@ public class Main {
     private static void delete(Scanner in, List<Doctor> listDoctor) {
         System.out.println("Input ID of Doctor: ");
         int id = Integer.parseInt(in.nextLine());
-        for (Doctor doctor : listDoctor) {
-            if (id == doctor.getId()) {
-                listDoctor.remove(doctor);
+        boolean found = false;
+        while (found != true) {            
+            for (Doctor doctor : listDoctor) {
+                if (id == doctor.getId()) {
+                    listDoctor.remove(doctor);
+                    found = true;
+                }
+            }
+            if (found != true) {
+                System.out.println("Not found");
                 break;
             }
         }
@@ -244,6 +258,7 @@ public class Main {
             }
             if (found != true) {
                 System.out.println("Not found");
+                break;
             }
         }
         System.out.println("Done!");
